@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  kanchana-webapp:
+    build: ./
+    networks:
+      - kyoto
+
+networks:
+  kyoto:
+    external: true
