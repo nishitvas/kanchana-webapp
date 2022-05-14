@@ -5,8 +5,6 @@ services:
     container_name: kanchana-webapp
     networks:
       - kyoto
-    ports:
-      - "127.0.0.1:16080:3000"
     labels:
       - traefik.http.routers.kanchana-webapp.entrypoints=websecure
       - traefik.http.routers.kanchana-webapp.service=kanchana-webapp
@@ -17,7 +15,7 @@ services:
       - traefik.http.routers.kanchana-webapp.rule=PathPrefix(`/kanchana`)
       - traefik.http.routers.kanchana-webapp.middlewares=kanchana-webapp-strip-prefix,oauth-chain@file
       - traefik.http.middlewares.kanchana-webapp-strip-prefix.stripprefix.prefixes=/kanchana
-      - traefik.http.services.kanchana-webapp.loadbalancer.server.port=16080
+      - traefik.http.services.kanchana-webapp.loadbalancer.server.port=3000
 networks:
   kyoto:
     external: true
