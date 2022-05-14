@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  kanchana-webapp:
+    build: ./
+    networks:
+      - kyoto
+    ports:
+      - "127.0.0.1:16080:3000"
+    labels:
+      - traefik.http.routers.kanchana-webapp.entrypoints=websecure
+      - traefik.http.routers.kanchana-webapp.service=api@internal
+      - traefik.http.routers.kanchana-webapp.tls.certresolver=defaultCertResolver
+      - traefik.http.routers.kanchana-webapp.tls.domains[0].main=kyoto.nishitvas.com
+      - traefik.http.routers.kanchana-webapp.tls.domains[1].main=kyoto.nishitvas.dev
+      - traefik.http.routers.kanchana-webapp.tls.domains[2].main=kyoto.nishitvas.me
+      - traefik.http.routers.kanchana-webapp.rule=PathPrefix(`/kanchana`)
+      - traefik.http.routers.kanchana-webapp.middlewares=kanchana-webapp-strip-prefix,oauth-chain@file
+      - traefik.http.middlewares.kanchana-webapp-strip-prefix.stripprefix.prefixes=/kanchana
+      - traefik.http.services.kanchana-webapp.loadbalancer.server.port=16080
+networks:
+  kyoto:
+    external: true
